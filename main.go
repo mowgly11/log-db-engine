@@ -47,7 +47,7 @@ Loop:
 			fmt.Printf("Write the value you want to add with the key %v: ", key)
 			fmt.Scan(&value)
 
-			status, _ := writer.AppendRecord(&memtable, key, value)
+			status, _ := writer.AppendPair(&memtable, key, value)
 
 			if status {
 				fmt.Println("Successfully added the key-value pair to the db!")
