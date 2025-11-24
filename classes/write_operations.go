@@ -9,12 +9,10 @@ type Writer struct {
 	DB_PATH string
 }
 
-func AppendPair(memtable *map[string]string, key string, value string) (bool, error) {
-	var err error
-
+func AppendPair(memtable *map[string]string, key string, value string) bool {
 	(*memtable)[key] = value
 
-	return true, err
+	return true
 }
 
 func WriteToDisk(db_instance *os.File, memtable *map[string]string) {
