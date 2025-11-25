@@ -3,10 +3,10 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/mowgly11/log-db-engine/classes"
 	"log"
 	"os"
 	"strings"
-	"github.com/mowgly11/log-db-engine/classes"
 )
 
 func main() {
@@ -32,7 +32,7 @@ Loop:
 		fmt.Println("=== Log Based Database ===")
 		fmt.Println("1. Insert into db")
 		fmt.Println("2. View all key-value pairs")
-		fmt.Println("3. Search for a key-value pair by key")
+		fmt.Println("3. Search for a value pair by key")
 		fmt.Println("4. Write data to disk")
 		fmt.Println("5. Exit")
 		fmt.Printf("select an option: ")
@@ -61,15 +61,25 @@ Loop:
 			}
 			fmt.Println("== MAP END ==")
 		case 3:
-			fmt.Println("Settings page")
+			var key string
+			fmt.Printf("Insert the key of the value you're looking for: ")
+			fmt.Scan(&key)
+
+			var value string = db_operations.Get(&memtable, key)
+			if value != "" {
+				fmt.Printf("Value found: %v \n", value)
+			} else {
+				fmt.Printf("No value was found associated with that key\n")
+			}
 		case 4:
 			db_operations.WriteToDisk(file, &memtable)
 		case 5:
 			fmt.Println("Leaving...")
-			file.Close()
 			break Loop
 		default:
 			fmt.Println("Invalid option")
 		}
 	}
+
+	defer file.Close()
 }
