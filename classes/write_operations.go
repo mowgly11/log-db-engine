@@ -1,4 +1,4 @@
-package writer
+package db_operations
 
 import (
 	"os"
@@ -9,7 +9,7 @@ type Writer struct {
 	DB_PATH string
 }
 
-func AppendPair(memtable *map[string]string, key string, value string) bool {
+func Set(memtable *map[string]string, key string, value string) bool {
 	(*memtable)[key] = value
 
 	return true

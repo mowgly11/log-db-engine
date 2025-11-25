@@ -47,7 +47,7 @@ Loop:
 			fmt.Printf("Write the value you want to add with the key %v: ", key)
 			fmt.Scan(&value)
 
-			status := writer.AppendPair(&memtable, key, value)
+			status := db_operations.Set(&memtable, key, value)
 
 			if status {
 				fmt.Println("Successfully added the key-value pair to the db!")
@@ -63,7 +63,7 @@ Loop:
 		case 3:
 			fmt.Println("Settings page")
 		case 4:
-			writer.WriteToDisk(file, &memtable)
+			db_operations.WriteToDisk(file, &memtable)
 		case 5:
 			fmt.Println("Leaving...")
 			file.Close()
