@@ -5,10 +5,6 @@ import (
 	"strings"
 )
 
-type Writer struct {
-	DB_PATH string
-}
-
 func Set(memtable *map[string]string, key string, value string) bool {
 	(*memtable)[key] = value
 
