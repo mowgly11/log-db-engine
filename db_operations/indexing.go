@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func CreateIndex(index *map[string]int) bool {
+func BuildIndex(index *map[string]int) bool {
 	file, err := os.Open("database/database.txt")
 
 	if err != nil {
