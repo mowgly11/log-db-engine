@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func Set(key string, value string) {
+func Set(key string, value string) bool {
 	file, err := os.OpenFile("database/database.txt", os.O_APPEND, 0644)
 
 	if err != nil {
@@ -23,4 +23,6 @@ func Set(key string, value string) {
 	data.WriteRune('\n')
 
 	file.Write([]byte(data.String()))
+
+	return true
 }
