@@ -26,3 +26,7 @@ func ReadLineAndLen(r *bufio.Reader) (string, int, error) {
 
 	return trimmed, length, nil
 }
+
+func Get(key string) {
+	
+}
