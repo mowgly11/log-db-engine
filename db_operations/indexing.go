@@ -16,12 +16,12 @@ func BuildIndex(index *map[string]int) bool {
 	}
 	defer file.Close()
 
-	r := bufio.NewReader(file)
+	reader := bufio.NewReader(file)
 
 	var nextOffset int64 = 0
 
 	for {
-		line, length, err := ReadLineAndLen(r)
+		line, length, err := ReadLineAndLen(reader)
 
 		if err == io.EOF && length == 0 {
 			break
