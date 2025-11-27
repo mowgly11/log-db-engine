@@ -1,25 +1,26 @@
 package db_operations
 
 import (
+	"log"
 	"os"
 	"strings"
 )
 
-func Set(memtable *map[string]string, key string, value string) bool {
-	(*memtable)[key] = value
+func Set(key string, value string) {
+	file, err := os.OpenFile("database/database.txt", os.O_APPEND, 0644)
 
-	return true
-}
-
-func WriteToDisk(db_instance *os.File, memtable *map[string]string) {
-	var data strings.Builder
-
-	for key, value := range *memtable {
-		data.WriteString(key)
-		data.WriteRune(':')
-		data.WriteString(value)
-		data.WriteRune('\n')
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	db_instance.Write([]byte(data.String()))
+	defer file.Close()
+
+	var data strings.Builder
+
+	data.WriteString(key)
+	data.WriteRune(':')
+	data.WriteString(value)
+	data.WriteRune('\n')
+
+	file.Write([]byte(data.String()))
 }
