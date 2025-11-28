@@ -1,9 +1,11 @@
 package db_operations
 
 import (
-	"strings"
-	"io"
 	"bufio"
+	"io"
+	"log"
+	"os"
+	"strings"
 )
 
 func ReadLineAndLen(r *bufio.Reader) (string, int, error) {
@@ -27,6 +29,16 @@ func ReadLineAndLen(r *bufio.Reader) (string, int, error) {
 	return trimmed, length, nil
 }
 
-func Get(key string) {
-	
+func OpenFile(path string) *os.File {
+	file, err := os.Open(path);
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return file
+}
+
+func Get(key string, index *map[string]int) {
+
 }
