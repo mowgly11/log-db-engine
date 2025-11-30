@@ -40,11 +40,11 @@ func OpenFile(path string) *os.File {
 	return file
 }
 
-func Get(key string, index *map[string]int64) (string, error) {
+func Get(key string, index map[string]int64) (string, error) {
 	file := OpenFile("database/database.txt")
 	defer file.Close()
 
-	byteOffset, ok := (*index)[key]
+	byteOffset, ok := index[key]
 
 	if !ok {
 		return "", nil
