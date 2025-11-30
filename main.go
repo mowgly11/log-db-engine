@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	index := make(map[string]int64)
+	index := make(map[string]int)
 
 	db_operations.BuildIndex(index)
 
@@ -16,8 +16,9 @@ Loop:
 	for option != 3 && option != 0 {
 		fmt.Println("=== Log Based Database ===")
 		fmt.Println("1. Insert into db")
-		fmt.Println("2. Search for a value pair by key")
-		fmt.Println("3. Exit")
+		fmt.Println("2. Search for a value by key")
+		fmt.Println("3. Delete a key-value pair by key")
+		fmt.Println("4. Exit")
 		fmt.Printf("select an option: ")
 		fmt.Scan(&option)
 
@@ -44,11 +45,13 @@ Loop:
 
 			value, _ := db_operations.Get(key, index)
 			if value != "" {
-				fmt.Printf("value found: %v \n", value)
+				fmt.Printf("\nvalue found: %v \n", value)
 			} else {
 				fmt.Printf("No value was found associated with that key\n")
 			}
 		case 3:
+
+		case 4:
 			fmt.Println("Leaving...")
 			break Loop
 		default:
