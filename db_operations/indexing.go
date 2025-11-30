@@ -2,6 +2,7 @@ package db_operations
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -14,6 +15,7 @@ func BuildIndex(index map[string]int) bool {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	defer file.Close()
 
 	reader := bufio.NewReader(file)
@@ -31,7 +33,12 @@ func BuildIndex(index map[string]int) bool {
 			colon := strings.IndexByte(line, ':')
 			if colon != -1 {
 				key := line[:colon]
-				index[key] = int(nextOffset)
+				if strings.Contains(key, "DELETE") {
+					fmt.Println(key)
+					delete(index, strings.Replace(key, "DELETE", "", 1))
+				} else {
+					index[key] = int(nextOffset)
+				}
 			}
 		}
 
