@@ -13,7 +13,7 @@ func main() {
 	var option int = -1
 
 Loop:
-	for option != 3 && option != 0 {
+	for option != 4 && option != 0 {
 		fmt.Println("=== Log Based Database ===")
 		fmt.Println("1. Insert into db")
 		fmt.Println("2. Search for a value by key")
@@ -50,7 +50,17 @@ Loop:
 				fmt.Printf("No value was found associated with that key\n")
 			}
 		case 3:
+			var key string
+			fmt.Printf("Insert the key of the value you're looking for: ")
+			fmt.Scan(&key)
 
+			status := db_operations.Delete(key, index)
+
+			if status {
+				fmt.Println("Successfully deleted the key-value pair to the db!")
+			} else {
+				fmt.Println("Failed to delete the key-value pair to the db!")
+			}
 		case 4:
 			fmt.Println("Leaving...")
 			break Loop
