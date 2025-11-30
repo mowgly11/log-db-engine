@@ -6,9 +6,9 @@ import (
 )
 
 func main() {
-	index := make(map[string]int)
+	index := make(map[string]int64)
 
-	db_operations.BuildIndex(&index)
+	db_operations.BuildIndex(index)
 
 	var option int
 
