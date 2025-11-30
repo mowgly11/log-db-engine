@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func BuildIndex(index map[string]int64) bool {
+func BuildIndex(index map[string]int) bool {
 	file, err := os.Open("database/database.txt")
 
 	if err != nil {
@@ -31,7 +31,7 @@ func BuildIndex(index map[string]int64) bool {
 			colon := strings.IndexByte(line, ':')
 			if colon != -1 {
 				key := line[:colon]
-				index[key] = nextOffset
+				index[key] = int(nextOffset)
 			}
 		}
 

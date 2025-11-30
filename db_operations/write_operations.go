@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func Set(key string, value string, index map[string]int64) bool {
+func Set(key string, value string, index map[string]int) bool {
 	file, err := os.OpenFile("database/database.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 
 	if err != nil {
@@ -33,7 +33,7 @@ func Set(key string, value string, index map[string]int64) bool {
 		return false
 	}
 
-	index[key] = info.Size()
+	index[key] = int(info.Size())
 
 	return true
 }
