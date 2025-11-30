@@ -10,10 +10,10 @@ func main() {
 
 	db_operations.BuildIndex(index)
 
-	var option int
+	var option int = -1
 
 Loop:
-	for option != 3 {
+	for option != 3 && option != 0 {
 		fmt.Println("=== Log Based Database ===")
 		fmt.Println("1. Insert into db")
 		fmt.Println("2. Search for a value pair by key")
@@ -30,7 +30,7 @@ Loop:
 			fmt.Printf("Write the value you want to add with the key %v: ", key)
 			fmt.Scan(&value)
 
-			status := db_operations.Set(key, value)
+			status := db_operations.Set(key, value, index)
 
 			if status {
 				fmt.Println("Successfully added the key-value pair to the db!")
