@@ -42,9 +42,9 @@ Loop:
 			fmt.Printf("Insert the key of the value you're looking for: ")
 			fmt.Scan(&key)
 
-			value, _ := db_operations.Get(key, &index)
+			value, _ := db_operations.Get(key, index)
 			if value != "" {
-				fmt.Printf("Value found: %v \n", value)
+				fmt.Printf("value found: %v \n", value)
 			} else {
 				fmt.Printf("No value was found associated with that key\n")
 			}
