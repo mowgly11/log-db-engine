@@ -9,4 +9,3 @@
 ### Issue and Challenges:
 
 1. Universal character recognition, right now the db only supports ASCII characters with limitations
-2. The index needs to be updated at each write to the disk

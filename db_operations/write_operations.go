@@ -6,8 +6,8 @@ import (
 	"strings"
 )
 
-func Set(key string, value string) bool {
-	file, err := os.OpenFile("database/database.txt", os.O_APPEND, 0644)
+func Set(key string, value string, index map[string]int64) bool {
+	file, err := os.OpenFile("database/database.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 
 	if err != nil {
 		log.Fatal(err)
@@ -15,14 +15,25 @@ func Set(key string, value string) bool {
 
 	defer file.Close()
 
-	var data strings.Builder
+	info, err := file.Stat()
 
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var data strings.Builder
+	
 	data.WriteString(key)
 	data.WriteRune(':')
 	data.WriteString(value)
 	data.WriteRune('\n')
+	
+	if _, err := file.Write([]byte(data.String())); err != nil {
+		log.Println("write error:", err)
+		return false
+	}
 
-	file.Write([]byte(data.String()))
+	index[key] = info.Size()
 
 	return true
 }
