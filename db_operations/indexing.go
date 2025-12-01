@@ -2,7 +2,6 @@ package db_operations
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -34,7 +33,6 @@ func BuildIndex(index map[string]int) bool {
 			if colon != -1 {
 				key := line[:colon]
 				if strings.Contains(key, "DELETE") {
-					fmt.Println(key)
 					delete(index, strings.Replace(key, "DELETE", "", 1))
 				} else {
 					index[key] = int(nextOffset)

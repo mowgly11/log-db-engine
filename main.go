@@ -5,6 +5,8 @@ import (
 	"github.com/mowgly11/log-db-engine/db_operations"
 )
 
+const SEGEMENT_SIZE_LIMIT_KB = 4
+
 func main() {
 	index := make(map[string]int)
 
