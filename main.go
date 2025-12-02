@@ -10,7 +10,7 @@ const SEGEMENT_SIZE_LIMIT_KB = 4
 func main() {
 	index := make(map[string]int)
 
-	db_operations.BuildIndex(index)
+	db_operations.BuildHashIndex(index)
 
 	var option int = -1
 

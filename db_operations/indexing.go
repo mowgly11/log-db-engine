@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func BuildIndex(index map[string]int) bool {
+func BuildHashIndex(index map[string]int) bool {
 	file, err := os.Open("database/database.txt")
 
 	if err != nil {
