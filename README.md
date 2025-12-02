@@ -4,7 +4,8 @@
 
 1. Read a key-value pair from the database
 2. Insert a key-value pair into the database
-3. Hash Index for faster reads
+3. Delete a key-value pair from the database
+4. Hash Index for faster reads
 
 ### Issue and Challenges:
 

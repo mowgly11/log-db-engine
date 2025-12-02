@@ -19,3 +19,16 @@ func Insert(root *BinaryTreeNode, value int) *BinaryTreeNode {
 
 	return root
 }
+
+func Search(root *BinaryTreeNode, value int) bool {
+	if root == nil {
+		return false
+	}
+	if value == root.Value {
+		return true
+	}
+	if value < root.Value {
+		return Search(root.Left, value)
+	}
+	return Search(root.Right, value)
+}
