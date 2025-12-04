@@ -7,7 +7,6 @@ import (
 )
 
 func Delete(key string, index map[string]int) bool {
-
 	file, err := os.OpenFile("database/database.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 
 	if err != nil {
@@ -18,7 +17,7 @@ func Delete(key string, index map[string]int) bool {
 
 	var data strings.Builder
 
-	data.WriteString("DELETE")
+	data.WriteString("DELETE ")
 	data.WriteString(key)
 	data.WriteRune(':')
 	data.WriteRune('\n')
