@@ -4,23 +4,22 @@ import (
 	//"fmt"
 	"log"
 	"os"
-	"slices"
 	"strconv"
 	"strings"
 )
 
-const SEGEMENT_SIZE_LIMIT_KB int32 = 200
-
-func SelectMostRecentSegment() (int) {
+func SelectMostRecentSegment() (os.DirEntry, int) {
 	entries, err := os.ReadDir("database")
-	files := []int{}
+
+	var MostRecentSegmentNumber int
+	var segment os.DirEntry
 
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+
 	if len(entries) == 0 {
-		return 0
+		return segment, 0
 	}
 
 	for _, entry := range entries {
@@ -31,21 +30,19 @@ func SelectMostRecentSegment() (int) {
 			continue
 		}
 
-		segNum, _ := strconv.Atoi(strings.Replace(strings.Split(info.Name(), "-")[1], ".txt", "", 1))
-		files = append(files, segNum)
+		segmentNumber, _ := strconv.Atoi(strings.Replace(strings.Split(info.Name(), "-")[1], ".txt", "", 1))
+
+		if segmentNumber > MostRecentSegmentNumber {
+			MostRecentSegmentNumber = segmentNumber
+			segment = entry
+		}
 	}
 
-	segmentNumber := slices.Max(files)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return segmentNumber
+	return segment, MostRecentSegmentNumber
 }
 
-func CreateSegment() (*os.File, error) {
-	segmentNumber := SelectMostRecentSegment()
+func CreateSegment() (*os.File, string, error) {
+	_, segmentNumber := SelectMostRecentSegment()
 
 	var segmentName strings.Builder
 	segmentName.WriteString("database/segment-")
@@ -60,5 +57,5 @@ func CreateSegment() (*os.File, error) {
 
 	defer file.Close()
 
-	return file, err
+	return file, file.Name(), err
 }
