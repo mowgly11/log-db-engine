@@ -9,41 +9,55 @@ import (
 )
 
 func BuildHashIndex(index map[string]int) bool {
-	file, err := os.Open("database/database.txt")
+	entries, err := os.ReadDir("database")
 
 	if err != nil {
 		log.Fatal(err)
+		return false
 	}
 
-	defer file.Close()
+	for _, entry := range entries {
+		var entryName strings.Builder
+		entryName.WriteString("database/")
+		entryName.WriteString(entry.Name())
 
-	reader := bufio.NewReader(file)
+		file, err := os.Open(entryName.String())
 
-	var nextOffset int64 = 0
-
-	for {
-		line, length, err := ReadLineAndLen(reader)
-
-		if err == io.EOF && length == 0 {
-			break
+		if err != nil {
+			log.Fatal(err)
 		}
 
-		if line != "" {
-			colon := strings.IndexByte(line, ':')
-			if colon != -1 {
-				key := line[:colon]
-				if strings.Contains(key, "DELETE") {
-					delete(index, strings.Replace(key, "DELETE", "", 1))
-				} else {
-					index[key] = int(nextOffset)
+		defer file.Close()
+
+		reader := bufio.NewReader(file)
+
+		var nextOffset int64 = 0
+
+		for {
+			line, length, err := ReadLineAndLen(reader)
+
+			if err == io.EOF && length == 0 {
+				break
+			}
+
+			if line != "" {
+				colon := strings.IndexByte(line, ':')
+				if colon != -1 {
+					key := line[:colon]
+					if strings.HasPrefix(key, "DELETE ") {
+						delete(index, strings.Replace(key, "DELETE ", "", 1))
+					} else {
+						key = strings.Replace(key, "PUT ", "", 1)
+						index[key] = int(nextOffset)
+					}
 				}
 			}
-		}
 
-		nextOffset += int64(length)
+			nextOffset += int64(length)
 
-		if err == io.EOF {
-			break
+			if err == io.EOF {
+				break
+			}
 		}
 	}
 
