@@ -3,15 +3,13 @@ package main
 import (
 	"fmt"
 	"github.com/mowgly11/log-db-engine/db_operations"
+	"github.com/mowgly11/log-db-engine/models"
 )
 
-const SEGEMENT_SIZE_LIMIT_KB = 4
-
 func main() {
-	index := make(map[string]int)
+	index := make(map[string]models.IndexEntry)
 
 	db_operations.BuildHashIndex(index)
-
 	var option int = -1
 
 Loop:
