@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+const SEGEMENT_SIZE_LIMIT_KB int32 = 1
+
 func SelectMostRecentSegment() (os.DirEntry, int) {
 	entries, err := os.ReadDir("database")
 
@@ -58,4 +60,32 @@ func CreateSegment() (*os.File, string, error) {
 	defer file.Close()
 
 	return file, file.Name(), err
+}
+
+func CreateOrSelectSegment() string {
+	var entryName strings.Builder
+
+	entry, _ := SelectMostRecentSegment()
+
+	if entry == nil {
+		_, name, _ := CreateSegment()
+		entryName.WriteString(name)
+	} else {
+		entryInfo, err := entry.Info()
+
+		if err != nil {
+			log.Fatal(err)
+			return ""
+		}
+
+		if (entryInfo.Size() / 1024) >= int64(SEGEMENT_SIZE_LIMIT_KB) {
+			_, name, _ := CreateSegment()
+			entryName.WriteString(name)
+		} else {
+			entryName.WriteString("database/")
+			entryName.WriteString(entry.Name())
+		}
+	}
+	
+	return entryName.String()
 }

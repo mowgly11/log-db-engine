@@ -10,34 +10,12 @@ import (
 	"github.com/mowgly11/log-db-engine/utils"
 )
 
-const SEGEMENT_SIZE_LIMIT_KB int32 = 1
+
 
 func Set(key string, value string, index map[string]models.IndexEntry) bool {
-	var entryName strings.Builder
+	entryName := utils.CreateOrSelectSegment()
 
-	entry, _ := utils.SelectMostRecentSegment()
-
-	if entry == nil {
-		_, name, _ := utils.CreateSegment()
-		entryName.WriteString(name)
-	} else {
-		entryInfo, err := entry.Info()
-
-		if err != nil {
-			log.Fatal(err)
-			return false
-		}
-
-		if (entryInfo.Size() / 1024) >= int64(SEGEMENT_SIZE_LIMIT_KB) {
-			_, name, _ := utils.CreateSegment()
-			entryName.WriteString(name)
-		} else {
-			entryName.WriteString("database/")
-			entryName.WriteString(entry.Name())
-		}
-	}
-
-	file, err := os.OpenFile(entryName.String(), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	file, err := os.OpenFile(entryName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 
 	if err != nil {
 		log.Fatal(err)
@@ -66,7 +44,7 @@ func Set(key string, value string, index map[string]models.IndexEntry) bool {
 		return false
 	}
 
-	indexInfo := models.IndexEntry{SegmentName: strings.Replace(entryName.String(), "database/", "", 1), Offset: int(info.Size())}
+	indexInfo := models.IndexEntry{SegmentName: strings.Replace(entryName, "database/", "", 1), Offset: int(info.Size())}
 
 	index[key] = indexInfo
 
