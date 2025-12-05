@@ -1,16 +1,18 @@
 package db_operations
 
 import (
+	//"fmt"
 	"log"
 	"os"
 	"strings"
 
+	"github.com/mowgly11/log-db-engine/models"
 	"github.com/mowgly11/log-db-engine/utils"
 )
 
 const SEGEMENT_SIZE_LIMIT_KB int32 = 1
 
-func Set(key string, value string, index map[string]int) bool {
+func Set(key string, value string, index map[string]models.IndexEntry) bool {
 	var entryName strings.Builder
 
 	entry, _ := utils.SelectMostRecentSegment()
@@ -23,6 +25,7 @@ func Set(key string, value string, index map[string]int) bool {
 
 		if err != nil {
 			log.Fatal(err)
+			return false
 		}
 
 		if (entryInfo.Size() / 1024) >= int64(SEGEMENT_SIZE_LIMIT_KB) {
@@ -38,6 +41,7 @@ func Set(key string, value string, index map[string]int) bool {
 
 	if err != nil {
 		log.Fatal(err)
+		return false
 	}
 
 	defer file.Close()
@@ -46,6 +50,7 @@ func Set(key string, value string, index map[string]int) bool {
 
 	if err != nil {
 		log.Fatal(err)
+		return false
 	}
 
 	var data strings.Builder
@@ -61,7 +66,9 @@ func Set(key string, value string, index map[string]int) bool {
 		return false
 	}
 
-	index[key] = int(info.Size())
+	indexInfo := models.IndexEntry{SegmentName: entryName.String(), Offset: int(info.Size())}
+
+	index[key] = indexInfo
 
 	return true
 }

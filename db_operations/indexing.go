@@ -2,17 +2,22 @@ package db_operations
 
 import (
 	"bufio"
+	"github.com/mowgly11/log-db-engine/models"
 	"io"
 	"log"
 	"os"
 	"strings"
 )
 
-func BuildHashIndex(index map[string]int) bool {
+func BuildHashIndex(index map[string]models.IndexEntry) bool {
 	entries, err := os.ReadDir("database")
 
 	if err != nil {
 		log.Fatal(err)
+		return false
+	}
+
+	if len(entries) == 0 {
 		return false
 	}
 
@@ -48,7 +53,7 @@ func BuildHashIndex(index map[string]int) bool {
 						delete(index, strings.Replace(key, "DELETE ", "", 1))
 					} else {
 						key = strings.Replace(key, "PUT ", "", 1)
-						index[key] = int(nextOffset)
+						index[key] = models.IndexEntry{SegmentName: entry.Name(), Offset: int(nextOffset)}
 					}
 				}
 			}

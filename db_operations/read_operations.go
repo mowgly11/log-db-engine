@@ -7,6 +7,8 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	"github.com/mowgly11/log-db-engine/models"
 )
 
 func ReadLineAndLen(r *bufio.Reader) (string, int, error) {
@@ -40,17 +42,17 @@ func OpenFile(path string) *os.File {
 	return file
 }
 
-func Get(key string, index map[string]int) (string, error) {
+func Get(key string, index map[string]models.IndexEntry) (string, error) {
 	file := OpenFile("database/database.txt")
 	defer file.Close()
 
-	byteOffset, ok := index[key]
+	value, ok := index[key]
 
 	if !ok {
 		return "", nil
 	}
 
-	_, err := file.Seek(int64(byteOffset), 0)
+	_, err := file.Seek(int64(value.Offset), 0)
 	if err != nil {
 		return "", err
 	}

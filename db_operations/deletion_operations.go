@@ -4,9 +4,11 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	"github.com/mowgly11/log-db-engine/models"
 )
 
-func Delete(key string, index map[string]int) bool {
+func Delete(key string, index map[string]models.IndexEntry) bool {
 	file, err := os.OpenFile("database/database.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 
 	if err != nil {
