@@ -43,14 +43,18 @@ func OpenFile(path string) *os.File {
 }
 
 func Get(key string, index map[string]models.IndexEntry) (string, error) {
-	file := OpenFile("database/database.txt")
-	defer file.Close()
-
 	value, ok := index[key]
 
 	if !ok {
 		return "", nil
 	}
+
+	var filePath strings.Builder
+	filePath.WriteString("database/")
+	filePath.WriteString(value.SegmentName)
+
+	file := OpenFile(filePath.String())
+	defer file.Close()
 
 	_, err := file.Seek(int64(value.Offset), 0)
 	if err != nil {
