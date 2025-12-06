@@ -44,7 +44,7 @@ func Set(key string, value string, index map[string]models.IndexEntry) bool {
 		return false
 	}
 
-	indexInfo := models.IndexEntry{SegmentName: strings.Replace(entryName, "database/", "", 1), Offset: int(info.Size())}
+	indexInfo := models.IndexEntry{SegmentName: strings.Replace(entryName, "database\\", "", 1), Offset: int(info.Size())}
 
 	index[key] = indexInfo
 

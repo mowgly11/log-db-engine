@@ -23,7 +23,7 @@ func BuildHashIndex(index map[string]models.IndexEntry) bool {
 
 	for _, entry := range entries {
 		var entryName strings.Builder
-		entryName.WriteString("database/")
+		entryName.WriteString("database\\")
 		entryName.WriteString(entry.Name())
 
 		file, err := os.Open(entryName.String())

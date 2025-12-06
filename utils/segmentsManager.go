@@ -47,7 +47,7 @@ func CreateSegment() (*os.File, string, error) {
 	_, segmentNumber := SelectMostRecentSegment()
 
 	var segmentName strings.Builder
-	segmentName.WriteString("database/segment-")
+	segmentName.WriteString("database\\segment-")
 	segmentName.WriteString(strconv.Itoa(segmentNumber + 1))
 	segmentName.WriteString(".txt")
 
@@ -82,7 +82,7 @@ func CreateOrSelectSegment() string {
 			_, name, _ := CreateSegment()
 			entryName.WriteString(name)
 		} else {
-			entryName.WriteString("database/")
+			entryName.WriteString("database\\")
 			entryName.WriteString(entry.Name())
 		}
 	}

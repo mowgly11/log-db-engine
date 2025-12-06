@@ -50,7 +50,7 @@ func Get(key string, index map[string]models.IndexEntry) (string, error) {
 	}
 
 	var filePath strings.Builder
-	filePath.WriteString("database/")
+	filePath.WriteString("database\\")
 	filePath.WriteString(value.SegmentName)
 
 	file := OpenFile(filePath.String())
