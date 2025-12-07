@@ -6,9 +6,9 @@ import (
 	"os"
 	"strconv"
 	"strings"
-)
 
-const SEGEMENT_SIZE_LIMIT_KB int32 = 1
+	"github.com/mowgly11/log-db-engine/models"
+)
 
 func SelectMostRecentSegment() (os.DirEntry, int) {
 	entries, err := os.ReadDir("database")
@@ -47,7 +47,7 @@ func CreateSegment() (*os.File, string, error) {
 	_, segmentNumber := SelectMostRecentSegment()
 
 	var segmentName strings.Builder
-	segmentName.WriteString("database\\segment-")
+	segmentName.WriteString("database/segment-")
 	segmentName.WriteString(strconv.Itoa(segmentNumber + 1))
 	segmentName.WriteString(".txt")
 
@@ -78,14 +78,14 @@ func CreateOrSelectSegment() string {
 			return ""
 		}
 
-		if (entryInfo.Size() / 1024) >= int64(SEGEMENT_SIZE_LIMIT_KB) {
+		if (entryInfo.Size() / 1024) >= int64(models.SEGEMENT_SIZE_LIMIT_KB) {
 			_, name, _ := CreateSegment()
 			entryName.WriteString(name)
 		} else {
-			entryName.WriteString("database\\")
+			entryName.WriteString("database/")
 			entryName.WriteString(entry.Name())
 		}
 	}
-	
+
 	return entryName.String()
 }
