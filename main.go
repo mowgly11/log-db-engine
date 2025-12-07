@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/mowgly11/log-db-engine/db_operations"
 	"github.com/mowgly11/log-db-engine/models"
 )
@@ -10,6 +11,7 @@ func main() {
 	index := make(map[string]models.IndexEntry)
 
 	db_operations.BuildHashIndex(index)
+
 	var option int = -1
 
 Loop:
@@ -51,7 +53,7 @@ Loop:
 			}
 		case 3:
 			var key string
-			fmt.Printf("Insert the key of the value you're looking for: ")
+			fmt.Printf("Insert the key of the value you're looking to delete: ")
 			fmt.Scan(&key)
 
 			status := db_operations.Delete(key, index)
