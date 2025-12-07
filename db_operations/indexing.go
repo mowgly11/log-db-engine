@@ -2,11 +2,13 @@ package db_operations
 
 import (
 	"bufio"
-	"github.com/mowgly11/log-db-engine/models"
 	"io"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/mowgly11/log-db-engine/models"
+	"github.com/mowgly11/log-db-engine/utils"
 )
 
 func BuildHashIndex(index map[string]models.IndexEntry) bool {
@@ -23,7 +25,7 @@ func BuildHashIndex(index map[string]models.IndexEntry) bool {
 
 	for _, entry := range entries {
 		var entryName strings.Builder
-		entryName.WriteString("database\\")
+		entryName.WriteString("database/")
 		entryName.WriteString(entry.Name())
 
 		file, err := os.Open(entryName.String())
@@ -39,7 +41,7 @@ func BuildHashIndex(index map[string]models.IndexEntry) bool {
 		var nextOffset int64 = 0
 
 		for {
-			line, length, err := ReadLineAndLen(reader)
+			line, length, err := utils.ReadLineAndLen(reader)
 
 			if err == io.EOF && length == 0 {
 				break
@@ -59,10 +61,6 @@ func BuildHashIndex(index map[string]models.IndexEntry) bool {
 			}
 
 			nextOffset += int64(length)
-
-			if err == io.EOF {
-				break
-			}
 		}
 	}
 
