@@ -1,9 +1,6 @@
 package db_operations
 
 import (
-	"bufio"
-	//"fmt"
-	"io"
 	"log"
 	"os"
 	"strings"
@@ -11,29 +8,8 @@ import (
 	"github.com/mowgly11/log-db-engine/models"
 )
 
-func ReadLineAndLen(r *bufio.Reader) (string, int, error) {
-	line, err := r.ReadString('\n')
-
-	if err != nil && err != io.EOF {
-		return "", 0, err
-	}
-
-	length := len(line)
-
-	trimmed := strings.TrimRight(line, "\r\n")
-
-	if err == io.EOF {
-		if length > 0 {
-			return trimmed, length, io.EOF
-		}
-		return "", 0, io.EOF
-	}
-
-	return trimmed, length, nil
-}
-
 func OpenFile(path string) *os.File {
-	file, err := os.Open(path);
+	file, err := os.Open(path)
 
 	if err != nil {
 		log.Fatal(err)
@@ -50,7 +26,7 @@ func Get(key string, index map[string]models.IndexEntry) (string, error) {
 	}
 
 	var filePath strings.Builder
-	filePath.WriteString("database\\")
+	filePath.WriteString("database/")
 	filePath.WriteString(value.SegmentName)
 
 	file := OpenFile(filePath.String())
