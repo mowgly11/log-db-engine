@@ -25,6 +25,9 @@ func SelectMostRecentSegment() (os.DirEntry, int) {
 	}
 
 	for _, entry := range entries {
+		if !strings.HasSuffix(entry.Name(), ".txt") {
+			continue
+		}
 		info, err := entry.Info()
 
 		if err != nil {
