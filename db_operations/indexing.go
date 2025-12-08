@@ -24,6 +24,10 @@ func BuildHashIndex(index map[string]models.IndexEntry) bool {
 	}
 
 	for _, entry := range entries {
+		if !strings.HasSuffix(entry.Name(), ".txt") {
+			continue
+		}
+
 		var entryName strings.Builder
 		entryName.WriteString("database/")
 		entryName.WriteString(entry.Name())
