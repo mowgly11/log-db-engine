@@ -14,7 +14,7 @@ func SelectMostRecentSegment() (os.DirEntry, int) {
 	entries, err := os.ReadDir("database")
 
 	var MostRecentSegmentNumber int
-	var segment os.DirEntry
+	var segment os.DirEntry = nil
 
 	if err != nil {
 		log.Fatal(err)
@@ -25,17 +25,11 @@ func SelectMostRecentSegment() (os.DirEntry, int) {
 	}
 
 	for _, entry := range entries {
-		if !strings.HasSuffix(entry.Name(), ".txt") {
-			continue
-		}
-		info, err := entry.Info()
-
-		if err != nil {
-			log.Fatal(err)
+		if !strings.HasSuffix(entry.Name(), ".txt") || strings.HasPrefix(entry.Name(), "segment-") {
 			continue
 		}
 
-		segmentNumber, _ := strconv.Atoi(strings.Replace(strings.Split(info.Name(), "-")[1], ".txt", "", 1))
+		segmentNumber, _ := strconv.Atoi(strings.Replace(strings.Split(entry.Name(), "-")[1], ".txt", "", 1))
 
 		if segmentNumber > MostRecentSegmentNumber {
 			MostRecentSegmentNumber = segmentNumber
