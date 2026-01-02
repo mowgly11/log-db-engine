@@ -1,4 +1,6 @@
-# Log Based Storage Engine - BStorage
+# Log-Structured Storage Engine - BStorage
+
+this is a toy database engine built by me in order to apply what i learnt from the Designing Data-Intensive applications book. in chapter 3, Martin explains two families of database engines which are *log-structured enignes* and *page-oriented engines*. i've decided to start with the log-structured one since its pretty interesting how much can be put into making a simple idea such as a log to turn it into a whole database engine.
 
 ### Current Features:
 
