@@ -10,6 +10,7 @@ import (
 	"github.com/mowgly11/log-db-engine/models"
 )
 
+// selects the most recent segemnt in the database
 func SelectMostRecentSegment() (os.DirEntry, int) {
 	entries, err := os.ReadDir("database")
 
