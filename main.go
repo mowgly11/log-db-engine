@@ -1,7 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"log"
+	"os"
+	"strings"
 
 	"github.com/mowgly11/log-db-engine/db_operations"
 	"github.com/mowgly11/log-db-engine/models"
@@ -26,12 +30,26 @@ Loop:
 
 		switch option {
 		case 1:
+			reader := bufio.NewReader(os.Stdin)
 			var key string
 			var value string
+
 			fmt.Printf("Write the key you want to add: ")
-			fmt.Scan(&key)
+			reader.ReadString('\n')
+
+			input, err := reader.ReadString('\n')
+			if err != nil {
+				log.Fatal(err)
+			}
+			key = strings.TrimSpace(input)
+
 			fmt.Printf("Write the value you want to add with the key %v: ", key)
-			fmt.Scan(&value)
+			input2, err2 := reader.ReadString('\n')
+			if err2 != nil {
+				log.Fatal(err2)
+			}
+
+			value = strings.TrimSpace(input2)
 
 			status := db_operations.Set(key, value, index)
 
