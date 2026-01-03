@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 	"strings"
-
+	"net/url"
 	"github.com/mowgly11/log-db-engine/models"
 	"github.com/mowgly11/log-db-engine/utils"
 )
@@ -34,7 +34,7 @@ func Set(key string, value string, index map[string]models.IndexEntry) bool {
 	data.WriteString("PUT ")
 	data.WriteString(key)
 	data.WriteRune(':')
-	data.WriteString(value)
+	data.WriteString(url.QueryEscape(value))
 	data.WriteRune('\n')
 
 	if _, err := file.Write([]byte(data.String())); err != nil {

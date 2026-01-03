@@ -2,6 +2,7 @@ package db_operations
 
 import (
 	"log"
+	"net/url"
 	"os"
 	"strings"
 
@@ -53,5 +54,8 @@ func Get(key string, index map[string]models.IndexEntry) (string, error) {
 		result = append(result, buffer[0])
 	}
 
-	return strings.Split(string(result), ":")[1], nil
+	var val string = strings.Split(string(result), ":")[1];
+	res, err := url.QueryUnescape(val)
+
+	return res, nil
 }
