@@ -13,7 +13,7 @@ import (
 )
 
 // WARNING: this is a resource-heavy function, only run this as a background process or otherwise it will cause the database to throttle
-func Compact() {
+func CompactAndMerge() {
 	compactionStorage := make(map[string]string)
 	allSegmentsRaw, err1 := os.ReadDir("database")
 
