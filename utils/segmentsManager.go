@@ -2,6 +2,7 @@ package utils
 
 import (
 	//"fmt"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -25,8 +26,9 @@ func SelectMostRecentSegment() (os.DirEntry, int) {
 		return segment, 0
 	}
 
+	
 	for _, entry := range entries {
-		if !strings.HasSuffix(entry.Name(), ".txt") || strings.HasPrefix(entry.Name(), "segment-") {
+		if !strings.HasSuffix(entry.Name(), ".txt") || !strings.HasPrefix(entry.Name(), "segment-") {
 			continue
 		}
 
@@ -64,6 +66,7 @@ func CreateOrSelectSegment() string {
 	var entryName strings.Builder
 
 	entry, _ := SelectMostRecentSegment()
+	fmt.Println(entry)
 
 	if entry == nil {
 		_, name, _ := CreateSegment()
