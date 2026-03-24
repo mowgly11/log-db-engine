@@ -15,7 +15,7 @@ import (
 // WARNING: this is a resource-heavy function, only run this as a background process or otherwise it will cause the database to throttle
 func CompactAndMerge() {
 	compactionStorage := make(map[string]string)
-	allSegmentsRaw, err1 := os.ReadDir("database")
+	allSegmentsRaw, err1 := os.ReadDir("database/segments")
 
 	if err1 != nil {
 		log.Fatal(err1)
@@ -26,7 +26,7 @@ func CompactAndMerge() {
 	for i := range allSegmentsRaw {
 		var segmentName strings.Builder
 
-		segmentName.WriteString("database/segment-")
+		segmentName.WriteString("database/segments/segment-")
 		segmentName.WriteString(strconv.Itoa(i + 1))
 		segmentName.WriteString(".txt")
 
@@ -67,7 +67,7 @@ func CompactAndMerge() {
 	var segmentNameHolder strings.Builder
 	var segmentNumber int = 1
 
-	segmentNameHolder.WriteString("database/segment-1.txt")
+	segmentNameHolder.WriteString("database/segments/segment-1.txt")
 
 	var file *os.File
 	var err2 error
@@ -105,7 +105,7 @@ func CompactAndMerge() {
 			segmentNumber++
 
 			segmentNameHolder.Reset()
-			segmentNameHolder.WriteString("database/segment-")
+			segmentNameHolder.WriteString("database/segments/segment-")
 			segmentNameHolder.WriteString(strconv.Itoa(segmentNumber))
 			segmentNameHolder.WriteString(".txt")
 
@@ -123,7 +123,7 @@ func CompactAndMerge() {
 	for i, segment := range allSegmentsRaw {
 		var segmentName strings.Builder
 
-		segmentName.WriteString("database/")
+		segmentName.WriteString("database/segments/")
 		segmentName.WriteString(segment.Name())
 
 		if i+1 > segmentNumber {

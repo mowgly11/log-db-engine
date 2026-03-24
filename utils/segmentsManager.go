@@ -1,8 +1,6 @@
 package utils
 
 import (
-	//"fmt"
-	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -13,7 +11,7 @@ import (
 
 // selects the most recent segemnt in the database
 func SelectMostRecentSegment() (os.DirEntry, int) {
-	entries, err := os.ReadDir("database")
+	entries, err := os.ReadDir("database/segments")
 
 	var MostRecentSegmentNumber int
 	var segment os.DirEntry = nil
@@ -47,7 +45,7 @@ func CreateSegment() (*os.File, string, error) {
 	_, segmentNumber := SelectMostRecentSegment()
 
 	var segmentName strings.Builder
-	segmentName.WriteString("database/segment-")
+	segmentName.WriteString("database/segments/segment-")
 	segmentName.WriteString(strconv.Itoa(segmentNumber + 1))
 	segmentName.WriteString(".txt")
 
@@ -66,7 +64,6 @@ func CreateOrSelectSegment() string {
 	var entryName strings.Builder
 
 	entry, _ := SelectMostRecentSegment()
-	fmt.Println(entry)
 
 	if entry == nil {
 		_, name, _ := CreateSegment()
@@ -83,7 +80,7 @@ func CreateOrSelectSegment() string {
 			_, name, _ := CreateSegment()
 			entryName.WriteString(name)
 		} else {
-			entryName.WriteString("database/")
+			entryName.WriteString("database/segments/")
 			entryName.WriteString(entry.Name())
 		}
 	}

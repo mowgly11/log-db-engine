@@ -12,7 +12,7 @@ import (
 )
 
 func BuildHashIndex(index map[string]models.IndexEntry) bool {
-	entries, err := os.ReadDir("database")
+	entries, err := os.ReadDir("database/segments")
 
 	if err != nil {
 		log.Fatal(err)
@@ -29,7 +29,7 @@ func BuildHashIndex(index map[string]models.IndexEntry) bool {
 		}
 
 		var entryName strings.Builder
-		entryName.WriteString("database/")
+		entryName.WriteString("database/segments/")
 		entryName.WriteString(entry.Name())
 
 		file, err := os.Open(entryName.String())
