@@ -12,7 +12,7 @@ import (
 	//"github.com/mowgly11/log-db-engine/models"
 )
 
-// WARNING: this is a resource-heavy function, only run this as a background process or otherwise it will cause the database to throttle
+// WARNING: this is a resource-heavy function, only run this as a background process or otherwise it will cause the process to throttle
 func CompactAndMerge() {
 	compactionStorage := make(map[string]string)
 	allSegmentsRaw, err1 := os.ReadDir("database/segments")
