@@ -9,3 +9,9 @@ this is a toy database engine built by me in order to apply what i learnt from t
 3. Hash Index for faster reads
 4. Segments Manager to handle multiple data segments management
 5. Compaction
+
+### Database directory tree:
+
+└───database
+   ├───instances (resposible for holding database instances metadata)
+   └───segments (responsible for holding the data itself)
